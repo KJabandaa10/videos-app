@@ -25,9 +25,17 @@ class App extends React.Component {
   render() {
     return (
       <div className="ui container">
-        <SearchBar onFormSubmit={this.onTermSubmit} />
-        <VideoDetail video={this.state.selectedVideo} />
-        <VideoList videos={this.state.videos} onVideoSelect={this.onVideoSelect} />
+         <SearchBar onFormSubmit={this.onTermSubmit} />
+        <div className="ui four column grid">
+          <div className="ui row">
+            <div className="eleven wide column">
+              <VideoDetail video={this.state.selectedVideo} />
+            </div>
+            <div className="five wide column">
+              <VideoList videos={this.state.videos} onVideoSelect={this.onVideoSelect} />
+            </div>
+          </div>
+        </div>
       </div>
     ); // function is in App but we passing it down as props - VideoList
   }
