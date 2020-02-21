@@ -1,11 +1,15 @@
 import React from "react";
-// import VideoList from "./VideoList";
+import '../styles/VideoItem.css';
 
-const VideoItem = ({ video }) => {
+const VideoItem = ({ video, onVideoSelect }) => { // vvv onclick set state of selected video vvv (using onVideoSelect) 
   return (
-    <div>
-      <img src={video.snippet.thumbnails.medium.url} alt="thumbnail" />
-      <div>{video.snippet.title}</div>
+    <div className="item video-item" onClick={() => {onVideoSelect(video)}}>
+      <img className="ui image" src={video.snippet.thumbnails.medium.url} alt="thumbnail" />
+      <div className="content">
+        <div className="header">
+          {video.snippet.title}
+        </div>
+      </div>
     </div>
   );
 };
