@@ -15,7 +15,7 @@ class App extends React.Component {
       }
     }); // waiting for response from YT API
 
-    this.setState({ videos: response.data.items });
+    this.setState({ videos: response.data.items, selectedVideo: response.data.items[0] });
   };
 
   onVideoSelect = video => {
