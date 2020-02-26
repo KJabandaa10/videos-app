@@ -1,30 +1,44 @@
-import React from 'react';
+import React from "react";
+import SearchBar from "./SearchBar";
+import VideoList from "./VideoList";
+import VideoDetail from './VideoDetail';
 
-class SearchBar extends React.Component {
-    state = { term: '' };
+import youtube from "../api/youtube";
 
-    onInputChange = e => {
-        this.setState=({ term: e.target.value });
-    }
+class App extends React.Component {
+  state = { videos: [], selectedVideo: null };
 
-    onFormSubmit = e => {
-        e.preventDefault();
+  onTermSubmit = async term => {
+    const response = await youtube.get("/search", {
+      params: {
+        q: term
+      }
+    }); // waiting for response from YT API
 
-        // TODO: callback func from parent
-    };
+    this.setState({ videos: response.data.items, selectedVideo: response.data.items[0] });
+  };
 
-    render() {
-        return (
-            <div className="search-bar ui segment">
-                <form onSubmit={this.onFormSubmit} className="ui form">
-                    <div className="field">
-                        <label>Video Search</label>
-                        <input onChange={this.onInputChange} type="text"></input>
-                    </div>
-                </form>
+  onVideoSelect = video => {
+    this.setState({ selectedVideo: video });
+  };
+
+  render() {
+    return (
+      <div className="ui container">
+         <SearchBar onFormSubmit={this.onTermSubmit} />
+        <div className="ui four column grid">
+          <div className="ui row">
+            <div className="eleven wide column">
+              <VideoDetail video={this.state.selectedVideo} />
             </div>
-        )
-    }
+            <div className="five wide column">
+              <VideoList videos={this.state.videos} onVideoSelect={this.onVideoSelect} />
+            </div>
+          </div>
+        </div>
+      </div>
+    ); // function is in App but we passing it down as props - VideoList
+  }
 }
 
-export default SearchBar;
+export default App;
